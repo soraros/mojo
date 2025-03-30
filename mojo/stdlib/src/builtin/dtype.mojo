@@ -449,7 +449,7 @@ struct DType(
         return Bool(
             __mlir_op.`pop.cmp`[pred = __mlir_attr.`#pop<cmp_pred eq>`](
                 __mlir_op.`pop.simd.and`(self._as_i8(), _mIsSigned.value),
-                UInt8(0).value,
+                __mlir_attr.`#pop.simd<0> : !pop.scalar<ui8>`,
             )
         )
 
@@ -467,7 +467,7 @@ struct DType(
         return Bool(
             __mlir_op.`pop.cmp`[pred = __mlir_attr.`#pop<cmp_pred ne>`](
                 __mlir_op.`pop.simd.and`(self._as_i8(), _mIsSigned.value),
-                UInt8(0).value,
+                __mlir_attr.`#pop.simd<0> : !pop.scalar<ui8>`,
             )
         )
 
@@ -481,7 +481,7 @@ struct DType(
         return Bool(
             __mlir_op.`pop.cmp`[pred = __mlir_attr.`#pop<cmp_pred ne>`](
                 __mlir_op.`pop.simd.and`(self._as_i8(), _mIsInteger.value),
-                UInt8(0).value,
+                __mlir_attr.`#pop.simd<0> : !pop.scalar<ui8>`,
             )
         )
 
@@ -509,7 +509,7 @@ struct DType(
         return Bool(
             __mlir_op.`pop.cmp`[pred = __mlir_attr.`#pop<cmp_pred ne>`](
                 __mlir_op.`pop.simd.and`(self._as_i8(), _mIsFloat.value),
-                UInt8(0).value,
+                __mlir_attr.`#pop.simd<0> : !pop.scalar<ui8>`,
             )
         )
 
