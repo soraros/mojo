@@ -163,8 +163,10 @@ fn memcmp[
 
 @always_inline
 fn _memcpy_impl(
-    dest_data: UnsafePointer[Byte, mut=True, **_],
-    src_data: __type_of(dest_data),
+    dest_data: UnsafePointer[
+        Byte, address_space = AddressSpace.GENERIC, mut=True, **_
+    ],
+    src_data: UnsafePointer[Byte, address_space = AddressSpace.GENERIC, **_],
     n: Int,
 ):
     """Copies a memory area.
@@ -249,7 +251,7 @@ fn _memcpy_impl(
 fn memcpy[
     T: AnyType
 ](
-    dest: UnsafePointer[T, address_space = AddressSpace.GENERIC, **_],
+    dest: UnsafePointer[T, address_space = AddressSpace.GENERIC, mut=True, **_],
     src: UnsafePointer[T, address_space = AddressSpace.GENERIC, **_],
     count: Int,
 ):
@@ -274,11 +276,7 @@ fn memcpy[
             n,
         )
     else:
-        _memcpy_impl(
-            dest.bitcast[Byte]().origin_cast[origin=MutableAnyOrigin](),
-            src.bitcast[Byte]().origin_cast[origin=MutableAnyOrigin](),
-            n,
-        )
+        _memcpy_impl(dest.bitcast[Byte](), src.bitcast[Byte](), n)
 
 
 # ===-----------------------------------------------------------------------===#
@@ -290,7 +288,7 @@ fn memcpy[
 fn _memset_impl[
     address_space: AddressSpace
 ](
-    ptr: UnsafePointer[Byte, address_space=address_space],
+    ptr: UnsafePointer[Byte, address_space=address_space, **_],
     value: Byte,
     count: Int,
 ):
@@ -499,13 +497,17 @@ fn _malloc[
     *,
     alignment: Int = alignof[type]() if is_gpu() else 1,
 ](size: Int, /) -> UnsafePointer[
-    type, address_space = AddressSpace.GENERIC, alignment=alignment
+    type, address_space = AddressSpace.GENERIC, alignment=alignment, **_
 ]:
     @parameter
     if is_gpu():
         return external_call[
             "malloc",
-            UnsafePointer[NoneType, address_space = AddressSpace.GENERIC],
+            UnsafePointer[
+                NoneType,
+                address_space = AddressSpace.GENERIC,
+                alignment=alignment,
+            ],
         ](size).bitcast[type]()
     else:
         return __mlir_op.`pop.aligned_alloc`[
@@ -521,7 +523,7 @@ fn _malloc[
 
 
 @always_inline
-fn _free(ptr: UnsafePointer[_, address_space = AddressSpace.GENERIC, *_, **_]):
+fn _free(ptr: UnsafePointer[_, address_space = AddressSpace.GENERIC, **_]):
     @parameter
     if is_gpu():
         libc.free(ptr.bitcast[NoneType]())
