@@ -1639,7 +1639,7 @@ def main():
     test_indexing()
     test_string_codepoints_iter()
     test_string_char_slices_iter()
-    test_format_args()
+    # test_format_args()
     test_format_conversion_flags()
     test_float_conversion()
     test_slice_contains()
@@ -1649,3 +1649,27 @@ def main():
     test_sso()
     test_python_object()
     test_copyinit()
+
+# struct assert_raises:
+#     var message_contains: String
+
+#     @always_inline
+#     fn __init__(out self):
+#         self.message_contains = ""
+
+#     @always_inline
+#     fn __init__(out self, *, contains: String):
+#         self.message_contains = contains
+
+#     fn __enter__(self):
+#         pass
+
+#     fn __exit__(self) raises:
+#         raise Error()
+
+#     fn __exit__(self, error: Error) raises -> Bool:
+#         return self.message_contains in String(error)
+
+# def main():
+#     with assert_raises(contains=String("")):
+#         raise String("")

@@ -241,8 +241,10 @@ struct _FormatCurlyEntry(Copyable, Movable, ExplicitlyCopyable):
         var raised_kwarg_field = Optional[String](None)
         alias `}` = UInt8(ord("}"))
         alias `{` = UInt8(ord("{"))
-        alias l_err = "there is a single curly { left unclosed or unescaped"
-        alias r_err = "there is a single curly } left unclosed or unescaped"
+        alias l_err = "there is a single curly { left unclosed or unescaped jndlkasdnasldnlkjsdvsadfnsajkldfnkjsdanfajkjndlkasdnasldnlkjsdvsadfnsajkldfnkjsdanfajk"
+        alias r_err = "there is a single curly } left unclosed or unescaped jndlkasdnasldnlkjsdvsadfnsajkldfnkjsdanfajkjndlkasdnasldnlkjsdvsadfnsajkldfnkjsdanfajk"
+        # alias l_err = "Small error left"
+        # alias r_err = "Small error right"
 
         var entries = List[Self]()
         var start = Optional[Int](None)
