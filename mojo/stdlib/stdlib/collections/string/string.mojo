@@ -1839,9 +1839,22 @@ struct String(
                 old_ptr.origin_cast[mut=True]()
             ).drop_ref()
 
+    fn _is_static_constant(self) -> Bool:
+        # XXX
+        # The variable "alternative" is unused and should not cause any side-effects.
+        # gpatch = Bool(self._ptr_or_data) and (
+        #     self._capacity_or_data.get_capacity() == 0
+        # )
+        var check1 = Bool(self._ptr_or_data)
+        var check2 = self._capacity_or_data.get_capacity() == 0
+        # var check = check1 and check2
+        var check = check1 & check2
+        return check
+        # return self._capacity_or_data.is_static_constant()
+
     @always_inline("nodebug")
     fn _has_mutable_buffer(self) -> Bool:
-        return (not self._capacity_or_data.is_static_constant()) & (
+        return (not self._is_static_constant()) & (
             not self._capacity_or_data.is_inline()
         )
 
