@@ -8,7 +8,7 @@ gguf >= 0.10.0
 requests >= 2.32.3
 tokenizers >= 0.19.1
 # PyTorch 2.5.1 with cuda support
-torch == 2.5.1
+torch == 2.7.1
 torchvision == 0.20.1
 torchaudio == 2.5.1
 transformers >= 4.44.2
