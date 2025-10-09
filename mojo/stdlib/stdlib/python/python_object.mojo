@@ -161,6 +161,7 @@ struct PythonObject(
         References:
         - https://docs.python.org/3/glossary.html#term-strong-reference
         """
+        debug_assert(Bool(from_owned), "from_owned must not be null")
         self._obj_ptr = from_owned
 
     fn __init__(out self, *, from_borrowed: PyObjectPtr):
@@ -177,6 +178,7 @@ struct PythonObject(
         References:
         - https://docs.python.org/3/glossary.html#term-borrowed-reference
         """
+        debug_assert(Bool(from_borrowed), "from_borrowed must not be null")
         ref cpy = Python().cpython()
         # SAFETY:
         #   We were passed a Python "borrowed reference", so for it to be
